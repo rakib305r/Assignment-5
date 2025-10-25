@@ -61,10 +61,22 @@ contactForm.addEventListener('submit', function(e) {
     const alertDiv = document.createElement('div');
     alertDiv.className = 'alert alert-success alert-dismissible fade show mt-3';
     alertDiv.setAttribute('role', 'alert');
-    alertDiv.innerHTML = `
-        <strong>Success!</strong> Thank you ${name}, your message has been sent. We'll get back to you soon!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
+    
+    // Create alert content safely to prevent XSS
+    const strongEl = document.createElement('strong');
+    strongEl.textContent = 'Success!';
+    
+    const messageText = document.createTextNode(` Thank you ${name}, your message has been sent. We'll get back to you soon!`);
+    
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'btn-close';
+    closeButton.setAttribute('data-bs-dismiss', 'alert');
+    closeButton.setAttribute('aria-label', 'Close');
+    
+    alertDiv.appendChild(strongEl);
+    alertDiv.appendChild(messageText);
+    alertDiv.appendChild(closeButton);
     
     // Insert alert after form
     contactForm.insertAdjacentElement('afterend', alertDiv);
