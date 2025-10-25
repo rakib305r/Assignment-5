@@ -74,7 +74,9 @@ contactForm.addEventListener('submit', function(e) {
     
     // Remove alert after 5 seconds
     setTimeout(() => {
-        alertDiv.remove();
+        if (alertDiv && alertDiv.parentNode) {
+            alertDiv.remove();
+        }
     }, 5000);
     
     // Log to console (in a real app, this would send to a server)
